@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.otway.softbar.MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <Button
+        android:id="@+id/id_btn_light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="浅色状态栏"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.3"
+        />
+
+    <Button
+        android:id="@+id/id_btn_dark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="深色状态栏"
+        app:layout_constraintLeft_toLeftOf="@id/id_btn_light"
+        app:layout_constraintRight_toRightOf="@id/id_btn_light"
+        app:layout_constraintTop_toBottomOf="@id/id_btn_light"
+        />
+
+    <Button
+        android:id="@+id/id_btn_trans"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="沉浸式"
+        app:layout_constraintTop_toBottomOf="@id/id_btn_dark"
+        app:layout_constraintLeft_toLeftOf="@id/id_btn_light"
+        app:layout_constraintRight_toRightOf="@id/id_btn_light"
+        android:layout_marginTop="10dp"
+        />
+
+
+</android.support.constraint.ConstraintLayout>
