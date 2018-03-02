@@ -11,6 +11,6 @@ class LightActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_light)
 
-        SoftBar.with(this).statusBarBackground(Color.WHITE).statusBarDarkFont()
+        SoftBar.with(this).safeDarkFont(Color.WHITE)
     }
 }

@@ -1,18 +1,3 @@
-/*
- * Copyright 2017 Yan Zhenjie
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.otway.library;
 
 import android.app.Activity;
@@ -34,8 +19,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Properties;
 
-
-class BarUtils {
+public class BarUtils {
 	private final static String KEY_MIUI_VERSION_NAME = "ro.miui.ui.version.name";
 	private static final String KEY_FLYME_VERSION_NAME = "ro.build.display.id";
 	private static String sMiuiVersionName;
@@ -120,14 +104,16 @@ class BarUtils {
 	/**
 	 * Set the status bar to dark.
 	 */
-	public static void setStatusBarDarkFont(Activity activity, boolean darkFont) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-			setDefaultStatusBarFont(activity, darkFont);
-		} else if (isMeizu()) {
-			setMeizuStatusBarFont(activity, darkFont);
+	public static boolean setStatusBarDarkFont(Activity activity, boolean darkFont) {
+		boolean succeed = setDefaultStatusBarFont(activity, darkFont);
+
+		if (isMeizu()) {
+			succeed = setMeizuStatusBarFont(activity, darkFont);
 		} else if (isXiaomi()) {
-			setMIUIStatusBarFont(activity, darkFont);
+			succeed = setMIUIStatusBarFont(activity, darkFont);
 		}
+
+		return succeed;
 	}
 
 	/**
@@ -149,7 +135,7 @@ class BarUtils {
 
 	//**---------------------------MeiZu &  XiaoMi-------------------------------------
 
-	private static void setMeizuStatusBarFont(Activity activity, boolean darkFont) {
+	private static boolean setMeizuStatusBarFont(Activity activity, boolean darkFont) {
 		try {
 			WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
 			Field darkFlag = WindowManager.LayoutParams.class.getDeclaredField("MEIZU_FLAG_DARK_STATUS_BAR_ICON");
@@ -166,10 +152,13 @@ class BarUtils {
 			meizuFlags.setInt(lp, value);
 			activity.getWindow().setAttributes(lp);
 		} catch (Exception ignored) {
+			return false;
 		}
+
+		return true;
 	}
 
-	private static void setMIUIStatusBarFont(Activity activity, boolean dark) {
+	private static boolean setMIUIStatusBarFont(Activity activity, boolean dark) {
 		Window window = activity.getWindow();
 		Class<?> clazz = window.getClass();
 		try {
@@ -183,10 +172,12 @@ class BarUtils {
 				extraFlagField.invoke(window, 0, darkModeFlag);
 			}
 		} catch (Exception ignored) {
+			return false;
 		}
+		return true;
 	}
 
-	private static void setDefaultStatusBarFont(Activity activity, boolean dark) {
+	private static boolean setDefaultStatusBarFont(Activity activity, boolean dark) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 			Window window = activity.getWindow();
 			View decorView = window.getDecorView();
@@ -195,7 +186,9 @@ class BarUtils {
 			} else {
 				decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() & ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 			}
+			return true;
 		}
+		return false;
 	}
 
 	static boolean isSupportedStatusModeChange() {

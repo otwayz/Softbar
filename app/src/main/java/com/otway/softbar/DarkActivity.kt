@@ -1,8 +1,8 @@
 package com.otway.softbar
 
 import android.graphics.Color
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import com.otway.library.SoftBar
 
 class DarkActivity : AppCompatActivity() {
@@ -11,6 +11,6 @@ class DarkActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dark)
 
-        SoftBar.with(this).statusBarBackground(Color.DKGRAY).statusBarLightFont()
+        SoftBar.with(this).safeLightFont(Color.DKGRAY)
     }
 }

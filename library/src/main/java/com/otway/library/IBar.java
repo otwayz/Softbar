@@ -19,4 +19,16 @@ public interface IBar {
 	IBar needOffsetView(View needOffsetView);
 
 	IBar invasionStatusBar();
+
+	IBar safeDarkFont(int statusBarColor);
+
+	IBar safeDarkFont();
+
+	IBar safeDarkFontRes(@ColorRes int statusBarColorRes);
+
+	IBar safeLightFont(int statusBarColor);
+
+	IBar safeLightFont();
+
+	IBar safeLightFontRes(@ColorRes int statusBarColorRes);
 }
