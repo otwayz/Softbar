@@ -83,8 +83,6 @@ class BarCompat implements IBar {
 				if (statusBarColor != INVALID_COLOR) {
 					BarUtils.setStatusBarColor(mActivityRef.get(), statusBarColor);
 				}
-			} else {
-				return null;
 			}
 		}
 		return this;
@@ -101,8 +99,6 @@ class BarCompat implements IBar {
 			boolean succeed = BarUtils.setStatusBarDarkFont(mActivityRef.get(), true);
 			if (succeed) {
 				BarUtils.setStatusBarColor(mActivityRef.get(), ContextCompat.getColor(mActivityRef.get(), statusBarColorRes));
-			} else {
-				return null;
 			}
 		}
 		return this;
@@ -116,8 +112,6 @@ class BarCompat implements IBar {
 				if (statusBarColor != INVALID_COLOR) {
 					BarUtils.setStatusBarColor(mActivityRef.get(), statusBarColor);
 				}
-			} else {
-				return null;
 			}
 		}
 		return this;
@@ -134,8 +128,6 @@ class BarCompat implements IBar {
 			boolean succeed = BarUtils.setStatusBarDarkFont(mActivityRef.get(), false);
 			if (succeed) {
 				BarUtils.setStatusBarColor(mActivityRef.get(), ContextCompat.getColor(mActivityRef.get(), statusBarColorRes));
-			} else {
-				return null;
 			}
 		}
 		return this;
