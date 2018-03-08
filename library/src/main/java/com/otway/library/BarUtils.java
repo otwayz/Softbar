@@ -4,53 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
-import android.os.Environment;
-import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Properties;
 
 public class BarUtils {
-	private final static String KEY_MIUI_VERSION_NAME = "ro.miui.ui.version.name";
-	private static final String KEY_FLYME_VERSION_NAME = "ro.build.display.id";
-	private static String sMiuiVersionName;
-	private static String sFlymeVersionName;
-
-	static {
-		FileInputStream fileInputStream = null;
-		try {
-			fileInputStream = new FileInputStream(new File(Environment.getRootDirectory(), "build.prop"));
-			Properties properties = new Properties();
-			properties.load(fileInputStream);
-			Class<?> clzSystemProperties = Class.forName("android.os.SystemProperties");
-			Method getMethod = clzSystemProperties.getDeclaredMethod("get", String.class);
-			// miui
-			sMiuiVersionName = getLowerCaseName(properties, getMethod, KEY_MIUI_VERSION_NAME);
-			//flyme
-			sFlymeVersionName = getLowerCaseName(properties, getMethod, KEY_FLYME_VERSION_NAME);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (fileInputStream != null) {
-				try {
-					fileInputStream.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-
 	/**
 	 * Set the status bar color.
 	 */
@@ -105,15 +67,13 @@ public class BarUtils {
 	 * Set the status bar to dark.
 	 */
 	public static boolean setStatusBarDarkFont(Activity activity, boolean darkFont) {
-		boolean succeed = setDefaultStatusBarFont(activity, darkFont);
-
 		if (isMeizu()) {
-			succeed = setMeizuStatusBarFont(activity, darkFont);
+			return setMeizuStatusBarFont(activity, darkFont);
 		} else if (isXiaomi()) {
-			succeed = setMIUIStatusBarFont(activity, darkFont);
+			return setMIUIStatusBarFont(activity, darkFont);
+		} else {
+			return setDefaultStatusBarFont(activity, darkFont);
 		}
-
-		return succeed;
 	}
 
 	/**
@@ -160,7 +120,9 @@ public class BarUtils {
 
 	private static boolean setMIUIStatusBarFont(Activity activity, boolean dark) {
 		Window window = activity.getWindow();
+		View decorView = window.getDecorView();
 		Class<?> clazz = window.getClass();
+
 		try {
 			Class layoutParams = Class.forName("android.view.MiuiWindowManager$LayoutParams");
 			Field field = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE");
@@ -173,6 +135,14 @@ public class BarUtils {
 			}
 		} catch (Exception ignored) {
 			return false;
+		}
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			if (dark) {
+				decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+			} else {
+				decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() & ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+			}
 		}
 		return true;
 	}
@@ -200,46 +170,12 @@ public class BarUtils {
 		return (activity.getWindow().getAttributes().flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) == WindowManager.LayoutParams.FLAG_FULLSCREEN;
 	}
 
-	private final static String MEIZUBOARD[] = {"m9", "M9", "mx", "MX"};
-	private final static String FLYME = "flyme";
-
 
 	private static boolean isMeizu() {
-		return isPhone(MEIZUBOARD) || isFlyme();
+		return Rom.isFlyme();
 	}
 
 	private static boolean isXiaomi() {
-		return Build.BRAND.toLowerCase().contains("xiaomi");
-	}
-
-
-	private static boolean isPhone(String[] boards) {
-		final String board = android.os.Build.BOARD;
-		if (board == null) {
-			return false;
-		}
-		for (String board1 : boards) {
-			if (board.equals(board1)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private static boolean isFlyme() {
-		return !TextUtils.isEmpty(sFlymeVersionName) && sFlymeVersionName.contains(FLYME);
-	}
-
-	@Nullable
-	private static String getLowerCaseName(Properties p, Method get, String key) {
-		String name = p.getProperty(key);
-		if (name == null) {
-			try {
-				name = (String) get.invoke(null, key);
-			} catch (Exception ignored) {
-			}
-		}
-		if (name != null) name = name.toLowerCase();
-		return name;
+		return Rom.isMiui();
 	}
 }
