@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
+import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -15,8 +17,10 @@ import java.lang.reflect.Method;
 public class BarUtils {
 	/**
 	 * Set the status bar color.
+	 * @param activity NonNull
+	 * @param statusBarColor ColorInt
 	 */
-	public static void setStatusBarColor(Activity activity, int statusBarColor) {
+	public static void setStatusBarColor(@NonNull Activity activity, @ColorInt int statusBarColor) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			Window window = activity.getWindow();
 			window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -26,8 +30,10 @@ public class BarUtils {
 
 	/**
 	 * Set the navigation bar color.
+	 * @param activity NonNull
+	 * @param navigationBarColor ColorInt
 	 */
-	public static void setNavigationBarColor(Activity activity, int navigationBarColor) {
+	public static void setNavigationBarColor(@NonNull Activity activity,@ColorInt int navigationBarColor) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			Window window = activity.getWindow();
 			window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -37,8 +43,9 @@ public class BarUtils {
 
 	/**
 	 * Set the content layout full the StatusBar, but do not hide StatusBar.
+	 * @param activity NonNull
 	 */
-	public static void invasionStatusBar(Activity activity) {
+	public static void invasionStatusBar(@NonNull Activity activity) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			Window window = activity.getWindow();
 			View decorView = window.getDecorView();
@@ -52,8 +59,9 @@ public class BarUtils {
 
 	/**
 	 * Set the content layout full the NavigationBar, but do not hide NavigationBar.
+	 * @param activity NonNull
 	 */
-	public static void invasionNavigationBar(Activity activity) {
+	public static void invasionNavigationBar(@NonNull Activity activity) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			Window window = activity.getWindow();
 			View decorView = window.getDecorView();
@@ -65,8 +73,11 @@ public class BarUtils {
 
 	/**
 	 * Set the status bar to dark.
+	 * @param activity NonNull
+	 * @param darkFont the word or icon in the status bar area is dark color or not
+	 * @return  success or not
 	 */
-	public static boolean setStatusBarDarkFont(Activity activity, boolean darkFont) {
+	public static boolean setStatusBarDarkFont(@NonNull Activity activity, boolean darkFont) {
 		if (isMeizu()) {
 			return setMeizuStatusBarFont(activity, darkFont);
 		} else if (isXiaomi()) {
@@ -78,8 +89,10 @@ public class BarUtils {
 
 	/**
 	 * Set offset view
+	 * @param activity NonNull
+	 * @param needOffsetView the view which need translate Y-Axis
 	 */
-	public static void needOffsetView(Activity activity, View needOffsetView) {
+	public static void needOffsetView(@NonNull Activity activity, View needOffsetView) {
 		if (needOffsetView != null) {
 			ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) needOffsetView.getLayoutParams();
 			layoutParams.setMargins(layoutParams.leftMargin, layoutParams.topMargin + getStatusBarHeight(activity),
@@ -87,7 +100,7 @@ public class BarUtils {
 		}
 	}
 
-	private static int getStatusBarHeight(Context context) {
+	private static int getStatusBarHeight(@NonNull Context context) {
 		int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
 		return context.getResources().getDimensionPixelSize(resourceId);
 	}
@@ -95,7 +108,7 @@ public class BarUtils {
 
 	//**---------------------------MeiZu &  XiaoMi-------------------------------------
 
-	private static boolean setMeizuStatusBarFont(Activity activity, boolean darkFont) {
+	private static boolean setMeizuStatusBarFont(@NonNull Activity activity, boolean darkFont) {
 		try {
 			WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
 			Field darkFlag = WindowManager.LayoutParams.class.getDeclaredField("MEIZU_FLAG_DARK_STATUS_BAR_ICON");
@@ -118,7 +131,7 @@ public class BarUtils {
 		return true;
 	}
 
-	private static boolean setMIUIStatusBarFont(Activity activity, boolean dark) {
+	private static boolean setMIUIStatusBarFont(@NonNull Activity activity, boolean dark) {
 		Window window = activity.getWindow();
 		View decorView = window.getDecorView();
 		Class<?> clazz = window.getClass();
@@ -147,7 +160,7 @@ public class BarUtils {
 		return true;
 	}
 
-	private static boolean setDefaultStatusBarFont(Activity activity, boolean dark) {
+	private static boolean setDefaultStatusBarFont(@NonNull Activity activity, boolean dark) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 			Window window = activity.getWindow();
 			View decorView = window.getDecorView();

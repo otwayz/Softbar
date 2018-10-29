@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 26
@@ -26,9 +27,14 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     implementation 'com.android.support:appcompat-v7:26.1.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+}
+
+publish {
+    userOrg = 'otway'
+    groupId = 'com.zgc'
+    artifactId = 'softbar-release'
+    publishVersion = '1.0.0'
+    desc = 'Make the content invade into statusbar area and change the android statusbar light or dark mode'
+    website = 'https://github.com/otwayz/Softbar'
 }
