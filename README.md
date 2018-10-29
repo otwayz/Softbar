@@ -9,7 +9,8 @@ compile 'com.zgc:softbar-release:1.0.0'
 
 ```java
 public class BaseActivity extend Activity{
-  	public void statusBarModeChange() {
+  	
+    public void statusBarModeChange() {
         SoftBar.with(this).safeDarkFont(Color.WHITE);
     }
     
