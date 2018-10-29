@@ -26,6 +26,7 @@ public class BaseActivity extend Activity{
         SoftBar.release(this);
     		super.onDestroy();
     }
+    
 }
 ```
 
