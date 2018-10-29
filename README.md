@@ -30,9 +30,13 @@ public class BaseActivity extend Activity {
 }
 ```
 
+# 功能
+
 实现沉浸式 和  电池所在状态栏字体变色。
 支持小米 魅族 5.0及以上系统
 支持 Android 6.0及以上系统
+
+# Sample 图示
 
 ![浅色模式](https://github.com/otwayz/Softbar/blob/HEAD/imge/light.png)
 
