@@ -24,8 +24,7 @@ public class BaseActivity extend Activity {
     @Override
     protected void onDestroy() {
         SoftBar.release(this);
-        
-    		super.onDestroy();
+        super.onDestroy();
     }
     
 }
