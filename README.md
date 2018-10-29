@@ -8,7 +8,7 @@ compile 'com.zgc:softbar-release:1.0.0'
 ```
 
 ```java
-public class BaseActivity extend Activity{
+public class BaseActivity extend Activity {
   	
     public void statusBarModeChange() {
         SoftBar.with(this).safeDarkFont(Color.WHITE);
@@ -24,6 +24,7 @@ public class BaseActivity extend Activity{
     @Override
     protected void onDestroy() {
         SoftBar.release(this);
+        
     		super.onDestroy();
     }
     
