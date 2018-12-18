@@ -4,7 +4,7 @@ Statusbar   dark &amp; light mode  change
 # 用法
 
 ```bash
-compile 'com.zgc:softbar-release:1.0.0'
+compile 'com.zgc:softbar:1.0.1'
 ```
 
 ```java
