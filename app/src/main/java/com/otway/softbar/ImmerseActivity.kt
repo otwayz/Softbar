@@ -18,7 +18,7 @@ class ImmerseActivity : AppCompatActivity() {
             it.setHomeButtonEnabled(true)
         }
 
-        SoftBar.with(this).invasionStatusBar().needOffsetView(id_toolbar).safeDarkFont()
+        SoftBar(this).invasionStatusBar().needOffsetView(id_toolbar).safeDarkFont()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
