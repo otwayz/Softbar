@@ -45,3 +45,12 @@ public class BaseActivity extend Activity {
 
 
 ![沉浸模式](https://github.com/otwayz/Softbar/blob/HEAD/imge/immerse.jpeg)
+
+# 混淆
+
+```bash
+# softbar
+-dontwarn com.otway.**
+-keep class com.otway.**{*;}
+
+```
